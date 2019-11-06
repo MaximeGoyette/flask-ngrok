@@ -64,7 +64,8 @@ def _download_ngrok(ngrok_path):
 def _download_file(url):
     local_filename = url.split('/')[-1]
     r = requests.get(url, stream=True)
-    download_path = str(Path(tempfile.gettempdir(), local_filename))
+    dir_path = os.environ.get("VIRTUAL_ENV", tempfile.gettempdir())
+    download_path = str(Path(dir_path, local_filename))
     with open(download_path, 'wb') as f:
         shutil.copyfileobj(r.raw, f)
     return download_path
